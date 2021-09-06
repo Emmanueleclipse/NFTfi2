@@ -1,0 +1,134 @@
+.text-purple {
+    color: #7750f8 !important;
+}
+
+.bg-purple {
+    color: #7750f8 !important;
+}
+
+#error-msg,
+.error-msg {
+    color: coral !important;
+}
+
+.success-msg,
+#success-msg {
+    color: rgb(135, 253, 198) !important;
+}
+
+.no-record {
+    font-size: 18px;
+    color: #fff !important;
+    margin-top: 20px;
+}
+
+.time-remaining-progress,
+.exp-level-progress {
+    background: #293249;
+    height: 0.4rem;
+}
+
+.progress-bar {
+    background-image: linear-gradient(to right, #40d04f, #d9ff65) !important;
+}
+
+.time-progress-bar {
+    background-image: linear-gradient(to right, #7750F8, #E950F8) !important;
+}
+
+.badge-item-stat {
+    padding: 0px;
+    max-width: 200px;
+    margin: 15px;
+}
+
+.badge-item-stat-image-preview {
+    position: static !important;
+}
+
+.badge-item-stat-header {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    position: relative;
+    width: 100%;
+}
+
+.badge-item-stat-body {
+    padding: 20px 10px;
+}
+
+.badge-item-stat-title {
+    height: 38px;
+}
+
+.bar-progress-info {
+    height: 30px;
+}
+
+.badge-item-stat-body-media {
+    height: 150px;
+    position: relative;
+}
+
+.badge-item-stat-video {
+    width: 150px;
+    height: 150px;
+}
+
+.progress-stat {
+    margin: auto !important;
+}
+
+.progress-stat .bar-progress-wrap:last-child {
+    margin-top: 10px !important;
+}
+
+
+/* new css end */
+
+.badge-item-stat-image {
+    height: auto;
+    left: 50%;
+    max-height: 100%;
+    max-width: 100%;
+    position: absolute;
+    top: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    width: auto;
+}
+
+.btn-transfer:hover {
+    color: #4ff461;
+}
+
+.btn-transfer {
+    color: #c6c9c6;
+    cursor: pointer;
+}
+
+.content-grid {
+    padding: 40px 60px 200px !important;
+}
+
+input[type=number] {
+    height: 54px;
+    padding: 0 18px;
+    background-color: #1d2333;
+    border: 1px solid #3f485f;
+    color: #fff;
+    transition: border-color .2s ease-in-out;
+    width: 100%;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: 700;
+    font-family: Rajdhani, sans-serif;
+}
+
+@media screen and (max-width: 480px) {
+    .userAccount {
+        display: none;
+    }
+}
