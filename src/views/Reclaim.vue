@@ -130,32 +130,41 @@
 
                     <div class="row">
                       <div class="col mt-3">
-                        <img
-                          class="badge-item-stat-image stake-modal-img"
-                          v-if="row.data.img"
-                          :src="getImgUrl(row.data.img)"
-                          width="100"
-                          height="100"
-                          alt="badge-bronze-b"
-                        />
-                        <video
-                          class="badge-item-stat-video stake-modal-video"
-                          v-if="row.data.video"
-                          autoplay loop muted
-                        >
+                        <template v-if="row.data.video">
+                          <video
+                            height="150"
+                            width="150"
+                            class="center-dev"
+                            autoplay loop muted
+                          >
                           <source
                             :src="getImgUrl(row.data.video)"
                             type="video/mp4"
                           />
                           Your browser does not support the video tag.
                         </video>
+                        </template>
+                        <template v-else>
+                          <img
+                            class="modal-img center-dev"
+                            height="150"
+                            width="150"
+                            :src="getImgUrl(row.data.img)"
+                            alt="badge-bronze-b"
+                            v-show="isModalImageLoaded"
+                            @load="ModalLoaded"
+                          >
+                          <img class="badge-item-stat-image loading" v-if="!isModalImageLoaded && 'img' in row.data" :src="'/img/img-loader.gif'">
+                        </template>
+                        <br />
                         <p class="text-title text-center">
                           {{ row.data.name }}
                         </p>
-                      </div>
-                      <div class="col">
+                        <p class="text-title text-center">
+                          <strong>Owner:{{ owner }}</strong>
+                        </p>
                         <form @submit.prevent="OnUnStake" class="mt-5 mb-5">
-                          <div class="form-group">
+                          <!-- <div class="form-group">
                             <label for="pwd" class="ml-2">Owner:</label>
                             <input
                               type="text"
@@ -164,8 +173,8 @@
                               class="form-control"
                               placeholder="Enter Owner of the asset"
                             />
-                          </div>
-                          <div class="form-group">
+                          </div> -->
+                          <!-- <div class="form-group">
                             <label for="pwd" class="ml-2">Asset Id:</label>
                             <input
                               type="text"
@@ -174,7 +183,7 @@
                               class="form-control"
                               placeholder="Enter assset id"
                             />
-                          </div>
+                          </div> -->
                           <button type="submit" class="button secondary">
                             Reclaim
                           </button>
@@ -218,6 +227,7 @@ export default {
       row:{},
       account:"",
       owner:localStorage.getItem('wax_user'),
+      isModalImageLoaded:false,
       asset_id:"",
       assetIds:[],
       showModal: false,
@@ -266,6 +276,9 @@ export default {
       this.userFilter="Select option",
       this.fetchLevels()
     },
+    ModalLoaded(){
+    this.isModalImageLoaded = true
+  },
     searchAsset(){
       if (this.timer) {
           clearTimeout(this.timer);
@@ -426,66 +439,6 @@ export default {
         }
       }));
       this.fetchLevels()
-  },
-    async burnAllExpired(){
-      this.clearLogs()
-      let userAccount = localStorage.getItem('wax_user')
-      let actions = [];
-      if(!this.info.length){
-        return;
-      }
-      for (let index = 0; index <= this.info.length; index++) {
-        let row = this.info[index];
-        if(row && typeof row.asset_id !== 'undefined'){
-            actions.push({
-              account: "atomicassets",
-              name: 'burnasset',
-              authorization: [{
-                actor: userAccount,
-                permission: 'active',
-              }],
-              data: {owner: userAccount,asset_id:row.asset_id},
-            });
-        }
-      }
-
-    if(localStorage.getItem("ual-session-authenticator")!="Wax"){
-      await ApiService.doSign(actions,((res)=>{
-        if(res.processed.id){
-          this.error = "";
-          this.success = "Transaction done"
-            setTimeout(() => {
-              this.fetchLevels()
-              this.showModal = false;
-            }, 1000);
-        }
-      }),((error)=>{
-        this.success = "";
-        if(error.what){
-          this.error = error.what;
-        }else{
-          this.error = error
-        }
-      }));
-      return;
-    }
-      await ApiService.signWithWaxGeneric({actions: actions},((error)=>{
-          this.success = "";
-          if(error.what){
-            this.error = error.what;
-          }else{
-            this.error = error
-          }
-      }),((result)=>{
-        if(result.processed.id){
-          this.error = "";
-          this.success = "Transaction done"
-          setTimeout(() => {
-           this.fetchLevels()
-            this.showModal = false;
-          }, 1000);
-        }
-      }));
   },
   init(params) {
     if(!this.ids){

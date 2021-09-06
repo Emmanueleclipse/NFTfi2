@@ -2,25 +2,27 @@
     <div class="container center">
         <div class="grid grid-12 small-space">
             <div class="grid-column">
-                <form class="contact-us-form">
+                <form @submit.prevent="sendContactData" class="contact-us-form" id="contactForm">
                     <h2>Get In Contact With Us</h2>
                     <br/>
                     <div class="form-group">
                         <label for="name">Name</label>
-                        <input type="text" class="form-control" id="name" placeholder="Enter Name" required>
+                        <input type="text" class="form-control" v-model="user.name" id="name" placeholder="Enter Name" required>
                     </div>
 
                     <div class="form-group">
                         <label for="email">Email</label>
-                        <input type="email" class="form-control" id="email" placeholder="Enter Email" required>
+                        <input type="email" class="form-control" v-model="user.email" id="email" placeholder="Enter Email" required>
                     </div>
 
                     <div class="form-group">
                         <label for="message">Message</label>
-                        <textarea class="form-control" id="message" rows="3" placeholder="Enter Message" required></textarea>
+                        <textarea class="form-control" id="message" v-model="user.message" rows="3" placeholder="Enter Message" required></textarea>
                     </div>
                     
                     <button type="submit" class="btn btn-primary">Submit</button>
+
+                    <h4 class="text-center mt-3" id="my-form-status"></h4>
                 </form>
             </div>
         </div>
@@ -32,13 +34,72 @@ export default {
     name:"contact",
     data(){
         return {
+            user: {
+                name: '',
+                email: '',
+                message: ''
+            }
         }
     },
-  mounted () {
-    
-  },
+    mounted () {
+        
+    },
+
+    methods: {
+        sendContactData() {
+            console.log(this.user);
+            let form = document.getElementById("contactForm");
+            let status = document.getElementById("my-form-status");
+            let formdata = new FormData();
+            formdata.append('name', this.user.name);
+            formdata.append('email', this.user.email);
+            formdata.append('message', this.user.message);
+            fetch('https://formspree.io/f/mqkwwgga', {
+                method: 'POST',
+                body: formdata,
+                headers: {
+                    'Accept': 'application/json'
+                }
+            }).then(() => {
+                status.innerHTML = "Thanks for your submission!";
+                form.reset();
+            }).catch(() => {
+                status.innerHTML = "Oops! There was a problem submitting your form"
+            });
+
+
+
+
+            // let form = document.getElementById("contactForm");
+
+
+
+
+            // async function handleSubmit(event) {
+            //     event.preventDefault();
+            //     // let status = document.getElementById("my-form-status");
+            //     // let formdata = new FormData();
+            //     // formdata.a
+            //     console.log(this.user);
+            //     // fetch('https://formspree.io/f/mqkwwgga', {
+            //     //     method: 'POST',
+            //     //     body: data,
+            //     //     headers: {
+            //     //         'Accept': 'application/json'
+            //     //     }
+            //     // }).then(() => {
+            //     //     status.innerHTML = "Thanks for your submission!";
+            //     //     form.reset()
+            //     // }).catch(() => {
+            //     //     status.innerHTML = "Oops! There was a problem submitting your form"
+            //     // });
+            // }
+            // form.addEventListener("submit", handleSubmit)
+        }
+    }
 }
 </script>
+
 <style lang="scss" scoped>
     .contact-us-form {
         width: 500px;

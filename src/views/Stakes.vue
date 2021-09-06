@@ -110,32 +110,43 @@
 
                     <div class="row">
                       <div class="col mt-3">
-                        <img
-                          class="badge-item-stat-image stake-modal-img"
-                          v-if="row.data.img"
-                          :src="getImgUrl(row.data.img)"
-                          width="100"
-                          height="100"
-                          alt="badge-bronze-b"
-                        />
-                        <video
-                          class="badge-item-stat-video stake-modal-video"
-                          v-if="row.data.video"
-                          autoplay loop muted
-                        >
+                        <template v-if="row.data.video">
+                          <video
+                            height="150"
+                            width="150"
+                            class="center-dev"
+                            autoplay loop muted
+                          >
                           <source
                             :src="getImgUrl(row.data.video)"
                             type="video/mp4"
                           />
                           Your browser does not support the video tag.
                         </video>
+                        </template>
+                        <template v-else>
+                          <img
+                            class="modal-img center-dev"
+                            height="150"
+                            width="150"
+                            :src="getImgUrl(row.data.img)"
+                            alt="badge-bronze-b"
+                            v-show="isModalImageLoaded"
+                            @load="ModalLoaded"
+                          >
+                          <img class="badge-item-stat-image loading" v-if="!isModalImageLoaded && 'img' in row.data" :src="'/img/img-loader.gif'">
+                        </template>
+                        <br />
                         <p class="text-title text-center">
                           {{ row.data.name }}
                         </p>
-                      </div>
-                      <div class="col">
+                        <p class="text-title text-center">
+                          <strong>Owner:{{ owner }}</strong>
+                        </p>
+                      <!-- </div>
+                      <div class="col"> -->
                         <form @submit.prevent="signClaimStake" class="mt-5 mb-5">
-                          <div class="form-group">
+                          <!-- <div class="form-group">
                             <label for="pwd" class="ml-2">Owner:</label>
                             <input
                               type="text"
@@ -144,8 +155,8 @@
                               class="form-control"
                               placeholder="Enter Owner of the asset"
                             />
-                          </div>
-                          <div class="form-group">
+                          </div> -->
+                          <!-- <div class="form-group">
                             <label for="pwd" class="ml-2">Stake Id:</label>
                             <input
                               type="text"
@@ -154,7 +165,7 @@
                               class="form-control"
                               placeholder="Enter assset id"
                             />
-                          </div>
+                          </div> -->
                           <button type="submit" class="button secondary">
                             Claim
                           </button>
@@ -198,6 +209,7 @@ export default {
       state: null,
       info: null,
       assetId:"",
+      isModalImageLoaded:false,
       ids:"",
       searchTerm:null,
       row:{},
@@ -393,6 +405,9 @@ export default {
   clearLogs(){
     this.success = '';
     this.error = '';
+  },
+  ModalLoaded(){
+    this.isModalImageLoaded = true
   },
   async fetchStakes(params){
       this.stakes = await ApiService.getStakes();

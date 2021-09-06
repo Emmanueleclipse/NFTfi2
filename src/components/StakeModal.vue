@@ -43,7 +43,7 @@
                             placeholder="Enter Quantity e.g 100"
                           />
                         </div>
-                        <div class="form-group">
+                        <!-- <div class="form-group">
                           <label for="pwd" class="ml-2">memo:</label>
                           <input
                             type="text"
@@ -52,7 +52,7 @@
                             class="form-control"
                             placeholder="Enter lease asset id"
                           />
-                        </div>
+                        </div> -->
                         <p class="help-block">To be sent to: {{account}} </p>
                         <br />
                         <button type="submit" class="button secondary">

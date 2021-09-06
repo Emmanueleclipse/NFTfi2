@@ -97,6 +97,10 @@
             <button class="button secondary" @click.prevent="clear()">
               Reset
             </button>
+
+            <!-- <button class="button small secondary mt-3 mt-md-0" @click.prevent="burnAllExpired()">
+              Burn All Expired
+            </button> -->
             <!-- /BUTTON -->
           </div>
           <!-- /FORM SELECT -->
@@ -687,6 +691,70 @@ export default {
   clearLogs(){
     this.success = '';
     this.error = '';
+  },
+  async burnAllExpired(){
+      await this.init("&collection_name=boilerleases&limit=5")
+      let userAccount = localStorage.getItem('wax_user')
+      let actions = [];
+      if(!this.info.length){
+        return;
+      }
+      for (let index = 0; index <= this.info.length; index++) {
+        let row = this.info[index];
+        if(row && typeof row.asset_id !== 'undefined' && row.collection.collection_name=="boilerleases"){
+          console.log(row.name);
+            let isExpired = ApiService.isExpired(row.data.expiration);
+            if(isExpired){
+              actions.push({
+              account: "atomicassets",
+              name: 'burnasset',
+              authorization: [{
+                actor: userAccount,
+                permission: 'active',
+              }],
+                data: {asset_owner: userAccount,asset_id:row.asset_id},
+              });
+            }
+        }
+      }
+
+    if(localStorage.getItem("ual-session-authenticator")!="Wax"){
+      await ApiService.doSign(actions,((res)=>{
+        if(res.processed.id){
+          this.error = "";
+          this.success = "Transaction done"
+            setTimeout(() => {
+              this.fetchAll()
+              this.showModal = false;
+            }, 1000);
+        }
+      }),((error)=>{
+        this.success = "";
+        if(error.what){
+          this.error = error.what;
+        }else{
+          this.error = error
+        }
+      }));
+      return;
+    }
+      await ApiService.signWithWaxGeneric({actions: actions},((error)=>{
+          this.success = "";
+          if(error.what){
+            this.error = error.what;
+          }else{
+            this.error = error
+          }
+      }),((result)=>{
+        if(result.processed.id){
+          this.error = "";
+          this.success = "Transaction done"
+          setTimeout(() => {
+           this.fetchAll()
+            this.showModal = false;
+          }, 1000);
+        }
+      }));
   },
   searchApi(params) {
     this.isLoading = true

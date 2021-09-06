@@ -127,6 +127,10 @@ input[type=number] {
     font-family: Rajdhani, sans-serif;
 }
 
+.center-dev {
+    margin: 0 33% !important;
+}
+
 @media screen and (max-width: 480px) {
     .userAccount {
         display: none;
