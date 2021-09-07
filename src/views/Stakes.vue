@@ -58,7 +58,7 @@
 
             <!-- BUTTON -->
             <button class="button small secondary" @click.prevent="clear()">
-              Load all assets
+              Clear filters
             </button>
             <button class="button small secondary mt-3 mt-md-0" @click.prevent="claimBulk()">
               Claim all stake

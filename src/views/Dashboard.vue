@@ -392,6 +392,7 @@ export default {
     this.fetchAll()
   },
   mounted () {
+    console.log('inventory', this.inventory)
     // check if login if not redirect
     if(!ApiService.isLogin()) {
         router.push('/login')
@@ -592,6 +593,7 @@ export default {
         if(res['success']) {
           this.info = res['data']
           this.apiRes = res['data'];
+          console.log('update', res['data'])
           this.$store.commit('updateInventory', res['data'])
           // force page 1
           if(!setPage) {
