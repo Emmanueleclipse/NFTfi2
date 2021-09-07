@@ -1,5 +1,5 @@
 <template>
-  <div v-if="'data' in info">
+  <div v-if="'data' in info" class="root">
     <div class="col-md-2 badge-item-stat" @click.prevent="showModal()">
       <div class="badge-item-stat-header">
         <img
@@ -215,7 +215,6 @@ export default {
   },
   created() {
     this.userAccount = localStorage.getItem("wax_user");
-    console.log("asset card info", this.info.data);
   },
   methods: {
     showModal() {
@@ -250,6 +249,9 @@ export default {
 </script>
 
 <style scoped>
+.root {
+  cursor: pointer;
+}
 .modal-image {
   width: 100%;
   height: auto;

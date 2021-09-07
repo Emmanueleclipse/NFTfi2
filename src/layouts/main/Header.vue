@@ -151,7 +151,7 @@
       <!-- DROPDOWN BOX -->
       <div
         class="dropdown-box padding-bottom-small header-search-dropdown"
-        style="position: absolute; z-index: 9999; top: 57px; left: 0px; opacity: 0; visibility: hidden; transform: translate(0px, -40px); transition: transform 0.4s ease-in-out 0s, opacity 0.4s ease-in-out 0s, visibility 0.4s ease-in-out 0s;"
+        style="position: absolute; z-index: 5; top: 57px; left: 0px; opacity: 0; visibility: hidden; transform: translate(0px, -40px); transition: transform 0.4s ease-in-out 0s, opacity 0.4s ease-in-out 0s, visibility 0.4s ease-in-out 0s;"
       >
         <!-- DROPDOWN BOX CATEGORY -->
         <div class="dropdown-box-category">

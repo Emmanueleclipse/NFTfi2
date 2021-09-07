@@ -1,6 +1,7 @@
 <template>
   <transition name="modal-fade">
-    <div v-body-scroll-lock="this.isModalVisible" class="modal-backdrop">
+    <div class="root-modal">
+      <div @click="close" class="modal-backdrop"></div>
       <div class="modal container">
         <header class="modal-header">
           <slot name="header" />
@@ -22,9 +23,12 @@
 </template>
 
 <script>
+import vClickOutside from "v-click-outside";
 export default {
+  directives: {
+    clickOutside: vClickOutside.directive,
+  },
   name: "Modal",
-  props: ['isModalVisible'],
   methods: {
     close() {
       this.$emit("close");
@@ -34,10 +38,13 @@ export default {
 </script>
 
 <style scoped>
-.modal-backdrop {
-  position: fixed;
+.root-modal {
+  position: absolute;
   width: 100vw;
   height: 100vh;
+  top: 0;
+}
+.modal-backdrop {
   background-color: rgba(0, 0, 0, 0.3);
   display: flex;
   justify-content: center;
@@ -53,10 +60,13 @@ export default {
   border-radius: 12px;
   box-shadow: 0 0 40px 0 rgb(0 0 0 / 6%);
   width: 800px;
-  height: 800px;
+  height: 700px;
   margin: auto;
-  position: relative;
+  position: absolute;
   overflow-y: auto;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 .modal-header,
