@@ -154,7 +154,7 @@
                             v-show="isModalImageLoaded"
                             @load="ModalLoaded"
                           >
-                          <img class="badge-item-stat-image loading" v-if="!isModalImageLoaded && 'img' in row.data" :src="'/img/img-loader.gif'">
+                          <img class="img-loader loading" v-if="!isModalImageLoaded && 'img' in row.data" :src="'/img/img-loader.gif'">
                         </template>
                         <br />
                         <p class="text-title text-center">

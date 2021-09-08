@@ -195,7 +195,7 @@
                             v-show="isModalImageLoaded"
                             @load="ModalLoaded"
                           >
-                          <img class="badge-item-stat-image loading" v-if="!isModalImageLoaded && 'img' in row.data" :src="'/img/img-loader.gif'">
+                          <img class="img-loader loading" v-if="!isModalImageLoaded && 'img' in row.data" :src="'/img/img-loader.gif'">
                         </template>
                       </div>
 
@@ -295,14 +295,14 @@
                             v-show="isModalImageLoaded"
                             @load="ModalLoaded"
                           >
-                          <img class="badge-item-stat-image loading" v-if="!isModalImageLoaded && 'img' in row.data" :src="'/img/img-loader.gif'">
+                          <img class="img-loader loading" v-if="!isModalImageLoaded && 'img' in row.data" :src="'/img/img-loader.gif'">
                         </template>
                        
                       </div>
                       <div class="col">
                         <form @submit.prevent="OnStake" class="mt-5 mb-5">
                           <div class="form-group">
-                            <label for="pwd" class="ml-2">Lockup Period:</label>
+                            <label for="pwd" class="ml-2">Lockup Period (1-365 days):</label>
                             <input
                               type="number"
                               name="memo"
@@ -542,12 +542,20 @@ export default {
       this.isModalImageLoaded = false
     },
     async OnStake(){
-       this.clearLogs()
-      await this.makeTrans(this.assetId,process.env.VUE_APP_CONTRACT,this.memo);
+      this.clearLogs()
+      if(this.memo && this.memo!=0){
+        this.makeTrans(this.assetId,process.env.VUE_APP_CONTRACT,this.memo);
+      }else{
+        this.error = "Please provide a number between 1-365"
+      }
     },
     async OnSubmit(){
       this.clearLogs()
-      await this.makeTrans(this.assetId,this.account,this.memo);
+      if(this.account && this.account > 0){
+        await this.makeTrans(this.assetId,this.account,this.memo);
+      }else{
+        this.error = "Account field is required, please provide a valid account"
+      }
     },
     async makeTrans(assetId,toAccount,memo){
     if(!assetId || !toAccount){
@@ -675,7 +683,6 @@ export default {
   onlyNumber(evt) {
     evt = (evt) ? evt : window.event;
     var charCode = (evt.which) ? evt.which : evt.keyCode;
-    console.log(charCode);
     if (charCode === 46 || charCode===45) {
       evt.preventDefault();
     } else {

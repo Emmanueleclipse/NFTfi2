@@ -3,7 +3,8 @@
         <div class="grid grid-12 small-space">
             <div class="grid-column">
                 <form @submit.prevent="sendContactData" class="contact-us-form" id="contactForm">
-                    <h2>Get In Contact With Us</h2>
+                    <h4 class="text-center mt-3" id="my-form-status"></h4>
+                    <h2 class="mt-3">Get In Contact With Us</h2>
                     <br/>
                     <div class="form-group">
                         <label for="name">Name</label>
@@ -21,8 +22,6 @@
                     </div>
                     
                     <button type="submit" class="btn btn-primary">Submit</button>
-
-                    <h4 class="text-center mt-3" id="my-form-status"></h4>
                 </form>
             </div>
         </div>
@@ -54,7 +53,7 @@ export default {
             formdata.append('name', this.user.name);
             formdata.append('email', this.user.email);
             formdata.append('message', this.user.message);
-            fetch('https://formspree.io/f/mqkwwgga', {
+            fetch('https://formspree.io/f/xknkkkag', {
                 method: 'POST',
                 body: formdata,
                 headers: {
@@ -66,35 +65,6 @@ export default {
             }).catch(() => {
                 status.innerHTML = "Oops! There was a problem submitting your form"
             });
-
-
-
-
-            // let form = document.getElementById("contactForm");
-
-
-
-
-            // async function handleSubmit(event) {
-            //     event.preventDefault();
-            //     // let status = document.getElementById("my-form-status");
-            //     // let formdata = new FormData();
-            //     // formdata.a
-            //     console.log(this.user);
-            //     // fetch('https://formspree.io/f/mqkwwgga', {
-            //     //     method: 'POST',
-            //     //     body: data,
-            //     //     headers: {
-            //     //         'Accept': 'application/json'
-            //     //     }
-            //     // }).then(() => {
-            //     //     status.innerHTML = "Thanks for your submission!";
-            //     //     form.reset()
-            //     // }).catch(() => {
-            //     //     status.innerHTML = "Oops! There was a problem submitting your form"
-            //     // });
-            // }
-            // form.addEventListener("submit", handleSubmit)
         }
     }
 }
@@ -104,7 +74,7 @@ export default {
     .contact-us-form {
         width: 500px;
         margin: 0 auto;
-        margin-top: 130px;
+        margin-top: 110px;
         label {
             text-align: left;
         }

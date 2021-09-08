@@ -9,11 +9,13 @@
 #error-msg,
 .error-msg {
     color: coral !important;
+    text-align: center;
 }
 
 .success-msg,
 #success-msg {
     color: rgb(135, 253, 198) !important;
+    text-align: center;
 }
 
 .no-record {
@@ -95,6 +97,18 @@
     max-width: 100%;
     position: absolute;
     top: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    width: auto;
+}
+
+.img-loader {
+    height: auto;
+    left: 50%;
+    max-height: 100%;
+    max-width: 100%;
+    position: absolute;
+    top: 0%;
     -webkit-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
     width: auto;
