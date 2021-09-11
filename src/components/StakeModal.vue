@@ -70,7 +70,7 @@ export default {
     props: ['show', 'assetId'],
     data() {
         return {
-            account: "stage.hive",
+            account: "whenstakingx",
             error: "",
             success: "",
             quantity: "",

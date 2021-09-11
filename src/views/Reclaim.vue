@@ -484,13 +484,20 @@ export default {
     }
   },
   async fetchLevels(){
-      this.levels = await ApiService.getTinfos();
-      this.$store.commit('updateTinfos', this.levels)
+      var levels = await ApiService.getTinfosWithLimit(null);
+      this.levels = levels.rows;
+      var finala = levels.rows;
+      while (levels.more) {
+        levels = await ApiService.getTinfosWithLimit(levels.next_key);
+        finala = [...finala,...levels.rows];
+      }
+      this.levels = finala;
+      this.$store.commit('updateTinfos', finala)
       this.ids = "";
-      for (var i = 0; i < this.levels.length; i++){
+      for (var i = 0; i < finala.length; i++){
         let comma = (this.ids==="") ? "":",";
-        if(this.levels[i].owner==this.userAccount){
-          this.ids = `${this.ids}${comma}${this.levels[i].asset_id}`
+        if(finala[i].owner==this.userAccount){
+          this.ids = `${this.ids}${comma}${finala[i].asset_id}`
         }
       }
       if(this.ids){

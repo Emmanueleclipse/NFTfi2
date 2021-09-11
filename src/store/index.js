@@ -83,18 +83,25 @@ export default createStore({
                 });
             }
         },
-        getTinfos({ commit }) {
-            wax.rpc.get_table_rows({
-                json: true, // Get the response as json
-                code: process.env.VUE_APP_CONTRACT, // Contract that we target
-                scope: process.env.VUE_APP_CONTRACT, // Account that owns the data
-                table: 'tinfos', // Table name
-                limit: 100, // Maximum number of rows that we want to get
-                reverse: false, // Optional: Get reversed data
-                show_payer: false // Optional: Show ram payer
-            }).then(function(result) {
-                commit('updateTinfos', result.rows)
-            });
+        async getTinfos({ commit }) {
+            // wax.rpc.get_table_rows({
+            //     json: true, // Get the response as json
+            //     code: process.env.VUE_APP_CONTRACT, // Contract that we target
+            //     scope: process.env.VUE_APP_CONTRACT, // Account that owns the data
+            //     table: 'tinfos', // Table name
+            //     limit: 100, // Maximum number of rows that we want to get
+            //     reverse: false, // Optional: Get reversed data
+            //     show_payer: false // Optional: Show ram payer
+            // }).then(function(result) {
+            //     commit('updateTinfos', result.rows)
+            // });
+            var levels = await ApiService.getTinfosWithLimit(null);
+            var allRec = levels.rows;
+            while (levels.more) {
+                levels = await ApiService.getTinfosWithLimit(levels.next_key);
+                allRec = [...allRec, ...levels.rows];
+            }
+            commit('updateTinfos', allRec)
         },
         getStakes({ commit }) {
             wax.rpc.get_table_rows({
@@ -142,6 +149,7 @@ export default createStore({
                     })
 
                     if (item) {
+                        console.log(item);
                         let tpts = item.tpts
                         let quantity = item.quantity[0]
                             // stake asset has expiration date in meta either get it or get it from tinfos

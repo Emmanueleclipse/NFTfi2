@@ -96,11 +96,24 @@ export async function getTinfos() {
         code: process.env.VUE_APP_CONTRACT, // Contract that we target
         scope: process.env.VUE_APP_CONTRACT, // Account that owns the data
         table: 'tinfos', // Table name
-        limit: 100, // Maximum number of rows that we want to get
+        limit: 10000, // Maximum number of rows that we want to get
         reverse: false, // Optional: Get reversed data
         show_payer: false // Optional: Show ram payer
     });
     return result.rows
+}
+export async function getTinfosWithLimit(bound) {
+    const result = await wax.rpc.get_table_rows({
+        json: true, // Get the response as json
+        code: process.env.VUE_APP_CONTRACT, // Contract that we target
+        scope: process.env.VUE_APP_CONTRACT, // Account that owns the data
+        table: 'tinfos', // Table name
+        limit: 10000, // Maximum number of rows that we want to get
+        reverse: false, // Optional: Get reversed data
+        show_payer: false, // Optional: Show ram payer
+        lower_bound: bound
+    });
+    return result
 }
 export async function getStakes() {
     const result = await wax.rpc.get_table_rows({

@@ -423,6 +423,7 @@ export default {
           `${process.env.VUE_APP_API_ASSET_URL}?page=1&ids=${this.ids}&limit=10000${params}`,
           ((response) => {
             let res = response['data']
+            console.log('res: ', res)
             if(res['success']) {
               this.info = res['data']
               this.$store.commit('updateStakesInventory', res['data'])

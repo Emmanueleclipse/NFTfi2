@@ -700,7 +700,7 @@ export default {
     this.error = '';
   },
   async burnAllExpired(){
-      await this.init("&collection_name=boilerleases&limit=5")
+      await this.init("&collection_name=whenstakingx&limit=5")
       let userAccount = localStorage.getItem('wax_user')
       let actions = [];
       if(!this.info.length){
@@ -708,7 +708,7 @@ export default {
       }
       for (let index = 0; index <= this.info.length; index++) {
         let row = this.info[index];
-        if(row && typeof row.asset_id !== 'undefined' && row.collection.collection_name=="boilerleases"){
+        if(row && typeof row.asset_id !== 'undefined' && row.collection.collection_name=="whenstakingx"){
           console.log(row.name);
             let isExpired = ApiService.isExpired(row.data.expiration);
             if(isExpired){
