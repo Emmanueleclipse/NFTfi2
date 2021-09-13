@@ -149,7 +149,6 @@ export default createStore({
                     })
 
                     if (item) {
-                        console.log(item);
                         let tpts = item.tpts
                         let quantity = item.quantity[0]
                             // stake asset has expiration date in meta either get it or get it from tinfos

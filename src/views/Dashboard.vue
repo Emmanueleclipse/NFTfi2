@@ -551,7 +551,7 @@ export default {
     },
     async OnSubmit(){
       this.clearLogs()
-      if(this.account && this.account > 0){
+      if(this.account){
         await this.makeTrans(this.assetId,this.account,this.memo);
       }else{
         this.error = "Account field is required, please provide a valid account"

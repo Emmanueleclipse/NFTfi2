@@ -60,7 +60,7 @@
       <div class="bar-progress-wrap">
         <button
           class="button small secondary center"
-          v-if="isExpired"
+          v-if="info.data.expired"
           style="line-height: 23px !important;"
           @click.prevent="stack(info.asset_id, info, $event)"
         >
@@ -80,7 +80,7 @@
 
 <script>
 import * as ApiService from "../_services/Service";
-import { parseISO, isAfter } from "date-fns";
+// import { parseISO, isAfter } from "date-fns";
 export default {
   name: "ReclaimAssetCard",
   props: ["info", "row", "level"],
@@ -93,9 +93,9 @@ export default {
   },
   mounted() {
     // 2021-09-13 21:30:40
-    const todayDate = new Date();
-    const expiredDate = parseISO(this.info.data.expiredDate);
-    this.isExpired = isAfter(todayDate, expiredDate);
+    // const todayDate = new Date();
+    // const expiredDate = parseISO(this.info.data.expiredDate);
+    // this.isExpired = isAfter(todayDate, expiredDate);
   },
   methods: {
     getImgUrl(pet) {

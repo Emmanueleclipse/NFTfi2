@@ -1,6 +1,5 @@
 <template>
   <loading v-model:active="isLoading" :is-full-page="fullPage" />
-
   <section class="login pt-50">
     <div class="container" id="app">
       <div class="section-filters-bar justify-content-center v2">
@@ -321,7 +320,7 @@ export default {
       await this.reclaim(this.asset_id,this.owner);
     },
     async reclaim(assetId,toAccount){
-      this.clearLogs()
+    this.clearLogs()
     let userAccount = localStorage.getItem("wax_user")
     if(localStorage.getItem("ual-session-authenticator")!="Wax"){
       await ApiService.doSign({
