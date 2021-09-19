@@ -1,5 +1,6 @@
 <template>
   <loading v-model:active="isLoading" :is-full-page="fullPage" />
+
   <section class="login pt-50">
     <div class="container" id="app">
       <div class="section-filters-bar justify-content-center v2">
@@ -76,7 +77,7 @@
 
             <!-- BUTTON -->
             <button class="button small secondary" @click.prevent="clear()">
-              Load all assets
+              Reset Filters
             </button>
             <button class="button small secondary mt-3 mt-md-0" @click.prevent="reclaimBulk()">
               Reclaim all
@@ -320,7 +321,7 @@ export default {
       await this.reclaim(this.asset_id,this.owner);
     },
     async reclaim(assetId,toAccount){
-    this.clearLogs()
+      this.clearLogs()
     let userAccount = localStorage.getItem("wax_user")
     if(localStorage.getItem("ual-session-authenticator")!="Wax"){
       await ApiService.doSign({
@@ -483,20 +484,13 @@ export default {
     }
   },
   async fetchLevels(){
-      var levels = await ApiService.getTinfosWithLimit(null);
-      this.levels = levels.rows;
-      var finala = levels.rows;
-      while (levels.more) {
-        levels = await ApiService.getTinfosWithLimit(levels.next_key);
-        finala = [...finala,...levels.rows];
-      }
-      this.levels = finala;
-      this.$store.commit('updateTinfos', finala)
+      this.levels = await ApiService.getTinfos();
+      this.$store.commit('updateTinfos', this.levels)
       this.ids = "";
-      for (var i = 0; i < finala.length; i++){
+      for (var i = 0; i < this.levels.length; i++){
         let comma = (this.ids==="") ? "":",";
-        if(finala[i].owner==this.userAccount){
-          this.ids = `${this.ids}${comma}${finala[i].asset_id}`
+        if(this.levels[i].owner==this.userAccount){
+          this.ids = `${this.ids}${comma}${this.levels[i].asset_id}`
         }
       }
       if(this.ids){

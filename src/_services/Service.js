@@ -96,24 +96,11 @@ export async function getTinfos() {
         code: process.env.VUE_APP_CONTRACT, // Contract that we target
         scope: process.env.VUE_APP_CONTRACT, // Account that owns the data
         table: 'tinfos', // Table name
-        limit: 10000, // Maximum number of rows that we want to get
+        limit: 100, // Maximum number of rows that we want to get
         reverse: false, // Optional: Get reversed data
         show_payer: false // Optional: Show ram payer
     });
     return result.rows
-}
-export async function getTinfosWithLimit(bound) {
-    const result = await wax.rpc.get_table_rows({
-        json: true, // Get the response as json
-        code: process.env.VUE_APP_CONTRACT, // Contract that we target
-        scope: process.env.VUE_APP_CONTRACT, // Account that owns the data
-        table: 'tinfos', // Table name
-        limit: 10000, // Maximum number of rows that we want to get
-        reverse: false, // Optional: Get reversed data
-        show_payer: false, // Optional: Show ram payer
-        lower_bound: bound
-    });
-    return result
 }
 export async function getStakes() {
     const result = await wax.rpc.get_table_rows({
@@ -255,4 +242,18 @@ export function isExpired(expiredDate) {
     let currentUtc = moment.utc(localCurrentTime).format('YYYY-MM-DD HH:mm:ss')
     let expired = moment(currentUtc).isAfter(moment(expiredDate));
     return expired
+}
+export function collections(allRecord) {
+    var collections = Object.keys(allRecord).map(function(k) {
+        return allRecord[k].collection;
+    });
+    collections = collections.reduce((col, current) => {
+        const x = col.find(item => item.collection_name === current.collection_name);
+        if (!x) {
+            return col.concat([current]);
+        } else {
+            return col;
+        }
+    }, []);
+    return collections;
 }

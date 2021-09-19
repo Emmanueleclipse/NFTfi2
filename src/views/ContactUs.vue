@@ -53,7 +53,7 @@ export default {
             formdata.append('name', this.user.name);
             formdata.append('email', this.user.email);
             formdata.append('message', this.user.message);
-            fetch('https://formspree.io/f/moqyrqwr', {
+            fetch('https://formspree.io/f/mjvjlvjk', {
                 method: 'POST',
                 body: formdata,
                 headers: {

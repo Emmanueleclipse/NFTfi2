@@ -3,7 +3,7 @@
   <div class="col-md-2 badge-item-stat">
         <div class="badge-item-stat-header">
         <img class="badge-item-stat-image-preview" :src="info.data.levelImg" alt="badge-bronze-s">
-        <template v-if="info.collection.collection_name === 'whenstakingx'">
+        <template v-if="info.collection.collection_name=='boilerleases'">
             <div class="text-sticker btn-transfer" @click="stakeVoid(info.asset_id,info,$event)" v-if="!isExpired()">
               <svg class="text-sticker-icon icon-plus-small">
                 <use xlink:href="#svg-plus-small"></use>

@@ -95,7 +95,7 @@
 
             <!-- BUTTON -->
             <button class="button secondary" @click.prevent="clear()">
-              Reset
+              Reset Filters
             </button>
 
             <!-- <button class="button small secondary mt-3 mt-md-0" @click.prevent="burnAllExpired()">
@@ -551,7 +551,7 @@ export default {
     },
     async OnSubmit(){
       this.clearLogs()
-      if(this.account){
+      if(this.account && this.account > 0){
         await this.makeTrans(this.assetId,this.account,this.memo);
       }else{
         this.error = "Account field is required, please provide a valid account"
@@ -634,17 +634,9 @@ export default {
     // params is null or page=1 load all collection extracted from all record
     // we have an api point for collection as well but this way it fast
     if(params=="" || params == "&page=1"){
-          var collections = Object.keys(this.apiRes).map(function(k){
-            return res[k].collection;
-        });
-        this.collections = collections.reduce((col, current) => {
-          const x = col.find(item => item.collection_name === current.collection_name);
-          if (!x) {
-            return col.concat([current]);
-          } else {
-            return col;
-          }
-        }, []);
+        this.collections = ApiService.collections(this.apiRes)
+    }else{
+      this.collections = ApiService.collections(this.info)
     }
     if(this.userFilter=="stakable"){
       let stakeable = null
@@ -700,7 +692,7 @@ export default {
     this.error = '';
   },
   async burnAllExpired(){
-      await this.init("&collection_name=whenstakingx&limit=5")
+      await this.init("&collection_name=boilerleases&limit=5")
       let userAccount = localStorage.getItem('wax_user')
       let actions = [];
       if(!this.info.length){
@@ -708,7 +700,7 @@ export default {
       }
       for (let index = 0; index <= this.info.length; index++) {
         let row = this.info[index];
-        if(row && typeof row.asset_id !== 'undefined' && row.collection.collection_name=="whenstakingx"){
+        if(row && typeof row.asset_id !== 'undefined' && row.collection.collection_name=="boilerleases"){
           console.log(row.name);
             let isExpired = ApiService.isExpired(row.data.expiration);
             if(isExpired){

@@ -58,7 +58,7 @@
 
             <!-- BUTTON -->
             <button class="button small secondary" @click.prevent="clear()">
-              Load all assets
+              Reset Filters
             </button>
             <button class="button small secondary mt-3 mt-md-0" @click.prevent="claimBulk()">
               Claim all stake
@@ -286,7 +286,7 @@ export default {
       this.success = "";
     },
     async signClaimStake(){
-      this.clearLogs()
+    this.clearLogs()
     let userAccount = localStorage.getItem("wax_user")
     let action = {
         account: process.env.VUE_APP_CONTRACT,
@@ -306,7 +306,7 @@ export default {
           this.error = "";
           this.success = "Transaction done"
             setTimeout(() => {
-              this.showModal = false;
+               this.showStackModal = false;
             }, 1000);
           this.fetchStakes("")
         }
@@ -334,7 +334,7 @@ export default {
             this.error = ""
             this.success = "Transaction done"
             setTimeout(() => {
-              this.showModal = false;
+               this.showStackModal = false;
             }, 1000);
             this.fetchStakes("")
           }
@@ -369,9 +369,9 @@ export default {
           this.error = ""
           this.success = "Transaction done"
             setTimeout(() => {
-              this.showModal = false;
-            }, 1000);
-          this.fetchStakes("")
+               this.showStackModal = false;
+              this.fetchStakes("")
+            }, 2000);
         }
       }),((error)=>{
         this.success = ""
@@ -395,9 +395,9 @@ export default {
           this.error = ""
           this.success = "Transaction done"
           setTimeout(() => {
-            this.showModal = false;
-          }, 1000);
-          this.fetchStakes("")
+             this.showStackModal = false;
+              this.fetchStakes("")
+          }, 2000);
         }
       }));
     }
@@ -423,7 +423,6 @@ export default {
           `${process.env.VUE_APP_API_ASSET_URL}?page=1&ids=${this.ids}&limit=10000${params}`,
           ((response) => {
             let res = response['data']
-            console.log('res: ', res)
             if(res['success']) {
               this.info = res['data']
               this.$store.commit('updateStakesInventory', res['data'])
